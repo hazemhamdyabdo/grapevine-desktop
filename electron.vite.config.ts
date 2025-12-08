@@ -1,6 +1,7 @@
 import { resolve } from 'path'
 import { defineConfig } from 'electron-vite'
 import vue from '@vitejs/plugin-vue'
+import ui from '@nuxt/ui/vite'
 
 export default defineConfig({
   main: {},
@@ -11,6 +12,27 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
-    plugins: [vue()]
+    plugins: [
+      vue(),
+      ui({
+        ui: {
+          colorMode: false,
+          theme: {
+            colors: [
+              'primary',
+              'neutral',
+              'skeleton',
+              'red',
+              'error',
+              'yellow',
+              'shark',
+              'placeholder',
+              'disabled',
+              'white'
+            ]
+          }
+        }
+      })
+    ]
   }
 })

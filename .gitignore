@@ -6,3 +6,5 @@ out
 *.log*
 .env
 .vscode
+auto-imports.d.ts
+components.d.ts
