@@ -32,6 +32,10 @@ function createWindow(): void {
     return { action: 'deny' }
   })
 
+  mainWindow.on('close', (e) => {
+    e.preventDefault()
+  })
+
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
@@ -67,13 +71,17 @@ app.whenReady().then(() => {
   })
 })
 
+app.on('window-all-closed', () => {
+  console.log('close')
+})
+
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+  // if (process.platform !== 'darwin') {
+  //   app.quit()
+  // }
 })
 
 // In this file you can include the rest of your app's specific main process
