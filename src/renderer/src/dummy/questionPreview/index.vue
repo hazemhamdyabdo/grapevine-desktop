@@ -78,36 +78,6 @@ const simulateDataLoad = () => {
     </div>
 
     <!-- Footer Info -->
-    <div class="max-w-7xl mx-auto mt-8">
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h3 class="font-semibold text-blue-900 mb-2">📝 Component Structure:</h3>
-        <ul class="text-blue-800 space-y-1 text-sm">
-          <li><strong>DummyEvaluateQuizLoader:</strong> Skeleton loading state</li>
-          <li>
-            <strong>DummyEvaluateQuizStepper:</strong> Question navigation stepper (readonly mode)
-          </li>
-          <li>
-            <strong>DummyPreviewQuestion:</strong> Question display with answers (supports text,
-            math, images)
-          </li>
-          <li>
-            <strong>DummyPreviewAction:</strong> Navigation and timer controls (readonly mode)
-          </li>
-        </ul>
-
-        <h3 class="font-semibold text-blue-900 mb-2 mt-4">🎮 Features Demonstrated:</h3>
-        <ul class="text-blue-800 space-y-1 text-sm">
-          <li>• Loading states and skeleton UI</li>
-          <li>• Question types: Text, Math equations ($$), Images</li>
-          <li>• Answer selection with radio buttons</li>
-          <li>• Image fullscreen modal</li>
-          <li>• Timer countdown with color changes</li>
-          <li>• Responsive design (mobile/desktop)</li>
-          <li>• Copy question code functionality</li>
-          <li>• Question stepper with status indicators</li>
-        </ul>
-      </div>
-    </div>
   </div>
 </template>
 

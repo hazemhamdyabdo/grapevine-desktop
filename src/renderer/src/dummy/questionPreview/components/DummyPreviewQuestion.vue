@@ -182,20 +182,6 @@ const switchQuestion = () => {
         </Transition>
       </Teleport>
     </section>
-
-    <!-- Debug Info -->
-    <div class="mt-4 p-4 bg-gray-100 rounded-lg">
-      <h3 class="font-bold mb-2">Debug Info:</h3>
-      <p><strong>Selected Answer:</strong> {{ studentAnswer.id || 'None' }}</p>
-      <p>
-        <strong>Question Type:</strong>
-        {{ displayQuestion.image ? 'With Image' : 'Text Only' }}
-      </p>
-      <p>
-        <strong>Has Math:</strong>
-        {{ displayQuestion.question?.includes('$$') ? 'Yes' : 'No' }}
-      </p>
-    </div>
   </section>
 </template>
 

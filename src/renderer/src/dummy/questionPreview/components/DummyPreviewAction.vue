@@ -150,14 +150,5 @@ onMounted(() => {
         </UButton>
       </div>
     </div>
-
-    <!-- Debug Info -->
-    <div class="mt-4 p-4 bg-gray-100 rounded-lg">
-      <h3 class="font-bold mb-2">Debug Info:</h3>
-      <p><strong>Current Page:</strong> {{ currentPage }}</p>
-      <p><strong>Readonly Mode:</strong> {{ readonly ? 'Yes' : 'No' }}</p>
-      <p><strong>Buttons Disabled:</strong> {{ isBtnDisabled ? 'Yes' : 'No' }}</p>
-      <p><strong>Time Remaining:</strong> {{ timeRemaining }}</p>
-    </div>
   </div>
 </template>
