@@ -3,17 +3,32 @@ import path, { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
+let enableClose = false
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
     show: false,
+
+    fullscreen: true, // Fullscreen
+    kiosk: true, // Kiosk mode (no normal exit)
+    frame: false,
+
+    resizable: false,
+    fullscreenable: false,
+    minimizable: false,
+    maximizable: false,
+    alwaysOnTop: true,
+    skipTaskbar: true,
+
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      nodeIntegration: false,
+      contextIsolation: true
     }
   })
 
@@ -33,7 +48,18 @@ function createWindow(): void {
   })
 
   mainWindow.on('close', (e) => {
+    if (enableClose) {
+      app.quit()
+      return
+    }
     e.preventDefault()
+    mainWindow?.webContents.send('exam:attempt-close')
+  })
+  mainWindow.on('blur', () => {
+    mainWindow?.webContents.send('exam:window-blur')
+  })
+  mainWindow.on('minimize', () => {
+    mainWindow?.webContents.send('exam:window-minimize')
   })
 
   // HMR for renderer base on electron-vite cli.
@@ -61,6 +87,10 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+  ipcMain.on('app:close', () => {
+    enableClose = true
+    app.quit()
+  })
 
   createWindow()
 
