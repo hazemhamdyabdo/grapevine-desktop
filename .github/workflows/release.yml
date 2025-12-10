@@ -55,12 +55,27 @@ jobs:
         if: matrix.os == 'macos-latest'
         run: pnpm run build:mac
 
-      # Upload built files as artifacts
-      - name: Upload artifacts
+      # Upload only installer files as artifacts
+      - name: Upload Windows artifacts
+        if: matrix.os == 'windows-latest'
         uses: actions/upload-artifact@v4
         with:
-          name: grapevine-${{ matrix.os }}
-          path: dist/**
+          name: grapevine-windows
+          path: |
+            dist/*.exe
+            dist/*.blockmap
+            dist/latest.yml
+
+      - name: Upload macOS artifacts
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: grapevine-macos
+          path: |
+            dist/*.dmg
+            dist/*.zip
+            dist/*.blockmap
+            dist/latest-mac.yml
 
   release:
     name: Create GitHub Release
@@ -81,6 +96,10 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           files: |
-            dist-all/**/*
+            dist-all/**/*.exe
+            dist-all/**/*.dmg
+            dist-all/**/*.zip
+            dist-all/**/*.blockmap
+            dist-all/**/*.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
