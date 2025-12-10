@@ -12,16 +12,6 @@ const currentQuestion = computed(() => props.question || dummyQuestionPreview)
 const studentAnswer = ref<any>({})
 const copied = ref(false)
 
-const formattedAnswers = computed(() =>
-  currentQuestion.value.answers.map((answer) => {
-    return {
-      id: answer.id,
-      type: answer.answer ? 'text' : 'image',
-      value: answer.answer || answer.image || ''
-    }
-  })
-)
-
 const selectedImage = ref<string | null>(null)
 
 function openImageFullScreen(imageUrl: string) {
