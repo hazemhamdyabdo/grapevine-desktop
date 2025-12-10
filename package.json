@@ -1,10 +1,10 @@
 {
-  "name": "electron-app",
+  "name": "Grapevine Desktop",
   "version": "1.0.0",
-  "description": "An Electron application with Vue and TypeScript",
+  "description": "Grapevine Desktop",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "author": "Grapevine",
+  "homepage": "https://grapevine.com",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
