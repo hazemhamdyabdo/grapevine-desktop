@@ -1,0 +1,76 @@
+name: Build & Release Grapevine Desktop
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    name: Build for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+
+    defaults:
+      run:
+        working-directory: electron-app
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: electron-app/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Build per OS
+      - name: Build Windows
+        if: matrix.os == 'windows-latest'
+        run: npm run build:win
+
+      - name: Build macOS
+        if: matrix.os == 'macos-latest'
+        run: npm run build:mac
+
+      - name: Build Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: npm run build:linux
+
+      # Upload built files as artifacts (for debugging / backup)
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: grapevine-${{ matrix.os }}
+          path: electron-app/dist/**
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist-all
+
+      - name: Create GitHub Release and upload installers
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            dist-all/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
