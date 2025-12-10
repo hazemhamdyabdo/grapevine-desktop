@@ -6,7 +6,8 @@ on:
       - "v*"
 
 permissions:
-   contents: write
+  contents: write
+
 jobs:
   build:
     name: Build for ${{ matrix.os }}
@@ -16,6 +17,11 @@ jobs:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
 
+    # 👇 All `run:` commands will execute inside electron-app/
+    defaults:
+      run:
+        working-directory: electron-app
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -24,7 +30,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache-dependency-path: package-lock.json
+          cache: "npm"
+          # 👇 cache based on the lockfile **inside electron-app**
+          cache-dependency-path: electron-app/package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -42,12 +50,13 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: npm run build:linux
 
-      # Upload built files as artifacts (for debugging / backup)
+      # Upload built files as artifacts
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: grapevine-${{ matrix.os }}
-          path: dist/**
+          # 👇 dist is inside electron-app/
+          path: electron-app/dist/**
 
   release:
     name: Create GitHub Release
