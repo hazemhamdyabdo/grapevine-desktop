@@ -1,5 +1,9 @@
 appId: com.grapevine.desktop
 productName: Grapevine
+protocols:
+  - name: Grapevine
+    schemes:
+      - grapevine
 directories:
   buildResources: build
 files:
@@ -18,6 +22,8 @@ nsis:
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  perMachine: false
+  include: build/installer.nsh
 mac:
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:

@@ -5,9 +5,19 @@ import icon from '../../resources/icon.png?asset'
 
 let enableClose = false
 
+// Register the custom protocol for deep linking
+// In development, we need to pass the script path; in production, just the protocol name
+if (process.defaultApp) {
+  if (process.argv.length >= 2) {
+    app.setAsDefaultProtocolClient('grapevine', process.execPath, [path.resolve(process.argv[1])])
+  }
+} else {
+  app.setAsDefaultProtocolClient('grapevine')
+}
+
 const gotLock = app.requestSingleInstanceLock()
-let mainWindow
-let pendingDeepLink
+let mainWindow: BrowserWindow | null = null
+let pendingDeepLink: string | null = null
 function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -36,14 +46,14 @@ function createWindow(): void {
     }
   })
 
-  if (!app.isPackaged && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
-  } else {
-    mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'))
-  }
-
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
+    mainWindow?.show()
+
+    // Send any pending deep link that arrived before the window was ready
+    if (pendingDeepLink) {
+      mainWindow?.webContents.send('deep-link', pendingDeepLink)
+      pendingDeepLink = null
+    }
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -91,7 +101,7 @@ if (!gotLock) {
   app.quit()
 } else {
   // When a second instance is launched (Win/Linux), this fires in the *first* instance
-  app.on('second-instance', (event, commandLine, workingDirectory) => {
+  app.on('second-instance', (_event, commandLine, _workingDirectory) => {
     // commandLine will contain the protocol URL as the last argument
     const url = commandLine.find((arg) => arg.startsWith('grapevine://'))
 
