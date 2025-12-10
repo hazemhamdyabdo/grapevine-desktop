@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache-dependency-path: electron-app/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: grapevine-${{ matrix.os }}
-          path: electron-app/dist/**
+          path: dist/**
 
   release:
     name: Create GitHub Release
