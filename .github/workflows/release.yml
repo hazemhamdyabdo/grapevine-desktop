@@ -17,11 +17,6 @@ jobs:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
 
-    # 👇 All `run:` commands will execute inside electron-app/
-    defaults:
-      run:
-        working-directory: electron-app
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -44,7 +39,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('electron-app/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
@@ -69,8 +64,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: grapevine-${{ matrix.os }}
-          # 👇 dist is inside electron-app/
-          path: electron-app/dist/**
+          path: dist/**
 
   release:
     name: Create GitHub Release
