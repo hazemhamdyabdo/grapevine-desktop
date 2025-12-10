@@ -28,24 +28,24 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "npm"
+          cache: "pnpm"
           cache-dependency-path: electron-app/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install
 
       # Build per OS
       - name: Build Windows
         if: matrix.os == 'windows-latest'
-        run: npm run build:win
+        run: pnpm run build:win
 
       - name: Build macOS
         if: matrix.os == 'macos-latest'
-        run: npm run build:mac
+        run: pnpm run build:mac
 
       - name: Build Linux
         if: matrix.os == 'ubuntu-latest'
-        run: npm run build:linux
+        run: pnpm run build:linux
 
       # Upload built files as artifacts (for debugging / backup)
       - name: Upload artifacts
