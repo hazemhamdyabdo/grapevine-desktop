@@ -46,6 +46,16 @@
     "vue-eslint-parser": "^10.2.0",
     "vue-tsc": "^3.1.6"
   },
+  "build": {
+    "protocols": [
+      {
+        "name": "Grapevine",
+        "schemes": [
+          "grapevine"
+        ]
+      }
+    ]
+  },
   "pnpm": {
     "onlyBuiltDependencies": [
       "electron",

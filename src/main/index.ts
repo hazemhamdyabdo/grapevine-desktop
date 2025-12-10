@@ -4,9 +4,13 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
 let enableClose = false
+
+const gotLock = app.requestSingleInstanceLock()
+let mainWindow
+let pendingDeepLink
 function createWindow(): void {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
     show: false,
@@ -70,6 +74,41 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
+
+function handleDeepLink(url) {
+  console.log('Deep link:', url)
+
+  // Example: send to renderer
+  if (mainWindow) {
+    mainWindow.webContents.send('deep-link', url)
+    mainWindow.focus()
+  } else {
+    pendingDeepLink = url
+  }
+}
+if (!gotLock) {
+  // Another instance is already running, quit this one
+  app.quit()
+} else {
+  // When a second instance is launched (Win/Linux), this fires in the *first* instance
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // commandLine will contain the protocol URL as the last argument
+    const url = commandLine.find((arg) => arg.startsWith('grapevine://'))
+
+    if (url) {
+      handleDeepLink(url)
+    } else if (mainWindow) {
+      mainWindow.focus()
+    } else {
+      createWindow()
+    }
+  })
+}
+
+app.on('open-url', (event, url) => {
+  event.preventDefault()
+  handleDeepLink(url)
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
