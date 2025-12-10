@@ -50,10 +50,14 @@ jobs:
       - name: Build Windows
         if: matrix.os == 'windows-latest'
         run: pnpm run build:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build macOS
         if: matrix.os == 'macos-latest'
         run: pnpm run build:mac
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Upload only installer files as artifacts
       - name: Upload Windows artifacts
