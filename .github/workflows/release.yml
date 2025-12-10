@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        os: [windows-latest, macos-latest]
 
     steps:
       - name: Checkout repo
@@ -54,10 +54,6 @@ jobs:
       - name: Build macOS
         if: matrix.os == 'macos-latest'
         run: pnpm run build:mac
-
-      - name: Build Linux
-        if: matrix.os == 'ubuntu-latest'
-        run: pnpm run build:linux
 
       # Upload built files as artifacts
       - name: Upload artifacts
