@@ -51,13 +51,15 @@
     "appId": "com.eightundredsat.graypevine",
     "productName": "Graypevine",
     "mac": {
+      "category": "public.app-category.productivity",
       "target": [
-        "dmg",
-        "zip"
+        "mas"
       ],
       "hardenedRuntime": true,
-      "entitlements": "build/entitlements.mac.plist",
-      "entitlementsInherit": "build/entitlements.mac.inherit.plist"
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mas.plist",
+      "entitlementsInherit": "build/entitlements.mas.inherit.plist",
+      "provisioningProfile": "build/embedded.provisionprofile"
     },
     "protocols": [
       {

@@ -1,7 +1,7 @@
-appId: com.eighthundredsat.graypevine
+appId: com.eightundredsat.graypevine
 productName: Graypevine
 protocols:
-  - name: Grapevine
+  - name: Graypevine
     schemes:
       - grapevine
 directories:
