@@ -47,8 +47,17 @@
     "vue-tsc": "^3.1.6"
   },
   "build": {
-    "appId": "com.grapevine.desktop",
-    "productName": "Grapevine",
+    "appId": "com.eightundredsat.graypevine",
+    "productName": "Graypevine",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": ["mas"],
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mas.plist",
+      "entitlementsInherit": "build/entitlements.mas.inherit.plist",
+      "provisioningProfile": "build/embedded.provisionprofile"
+    },
     "protocols": [
       {
         "name": "Grapevine",
