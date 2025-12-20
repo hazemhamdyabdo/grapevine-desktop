@@ -31,6 +31,7 @@
     "@electron-toolkit/eslint-config-prettier": "3.0.0",
     "@electron-toolkit/eslint-config-ts": "^3.1.0",
     "@electron-toolkit/tsconfig": "^2.0.0",
+    "@electron/notarize": "^3.1.1",
     "@types/node": "^22.19.1",
     "@vitejs/plugin-vue": "^6.0.2",
     "electron": "^39.2.6",
@@ -47,8 +48,17 @@
     "vue-tsc": "^3.1.6"
   },
   "build": {
-    "appId": "com.grapevine.desktop",
-    "productName": "Grapevine",
+    "appId": "com.eightundredsat.graypevine",
+    "productName": "Graypevine",
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "hardenedRuntime": true,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.inherit.plist"
+    },
     "protocols": [
       {
         "name": "Grapevine",

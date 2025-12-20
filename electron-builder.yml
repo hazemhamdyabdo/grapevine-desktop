@@ -1,5 +1,5 @@
-appId: com.grapevine.desktop
-productName: Grapevine
+appId: com.eighthundredsat.graypevine
+productName: Graypevine
 protocols:
   - name: Grapevine
     schemes:
